@@ -9,7 +9,6 @@ using namespace std;
 int main(int argc, char *argv[]) {
     string dosyad = string(argv[1]);
     string sifreleme = string(argv[2]);
-    cout << dosyad << sifreleme;
     string anahtar = "asfhudsf4775214sfsdaf65244s2f1a6dgds46a5fds1rh8y4rets21fa654fdw8r42f1vds6f54e8yt4sd1gf3da1fa6w8r4h2123daf1as8fw6ras2df1e45tga6s5dsaf1212g4jhbfhjaduhaoiwfkasjf98y9287hrisaf7821sf2134ucfsd";
     srand(static_cast<unsigned int>(time(0)));
  
