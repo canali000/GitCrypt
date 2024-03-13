@@ -119,7 +119,10 @@ void halil(string sifre, string dosyaad, string sifreleme)
         }
         outFile.close();
     }
-    }}
+    }else {
+        cout << "Lutfen gecerli bir arguman giriniz. (on / off)" << endl;
+    }
+    }
    
 void sila(string sifre, string dosya, string sifreleme)
 {
