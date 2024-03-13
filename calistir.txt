@@ -1,0 +1,12 @@
+terminale gir
+program önce compile edilecek
+
+(main.cpp dosyasının sizin bilgisayarınızda bulunduğu dizini girin) 
+cd C/....../Masaüstü/Klasör 
+g++ main.cpp -o main.exe
+
+artık sadece main.exe'yi çalıştırıyoruz
+./main.exe arg1 arg2 arg3 
+
+
+
