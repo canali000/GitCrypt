@@ -1,12 +1,15 @@
 #include <iostream>
 #include <string>
+#include <fstream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
 // function prototype
 
 void can(string sifre, string dosya, string sifreleme);
-void mirza(string sifre, string dosya, string sifreleme);
+void mirza(const char* cSifre, const char* cDosya, const char* cSifreleme);
 void halil(string sifre, string dosya, string sifreleme);
 void sila(string sifre, string dosya, string sifreleme);
 
@@ -23,7 +26,10 @@ int main(int argc, char *argv[])
                 can(sifre, dosya, sifreleme);
             } 
             else if (ogrenci == "mirza"){
-                mirza(sifre, dosya, sifreleme);
+                const char* cSifre = sifre.c_str();
+                const char* cDosya = dosya.c_str();
+                const char* cSifreleme = sifreleme.c_str();
+                mirza(cSifre, cDosya, cSifreleme);
             } 
             else if (ogrenci == "halil"){
                 halil(sifre, dosya, sifreleme);
@@ -57,12 +63,12 @@ void can(string sifre, string dosya, string sifreleme)
     cout << dosya << endl;
     cout << sifreleme << endl;
 }
-void mirza(string sifre, string dosya, string sifreleme)
+void mirza(const char* cSifre, const char* cDosya, const char* cSifreleme)
 {
-    cout << "Mirza calisti" << endl; 
-    cout << sifre << endl;
-    cout << dosya << endl;
-    cout << sifreleme << endl;
+    printf("Mirza calisti\n"); 
+    printf("%s\n",cSifre);
+    printf("%s\n",cDosya);
+    printf("%s\n",cSifreleme);
 }
 void halil(string sifre, string dosya, string sifreleme)
 {
