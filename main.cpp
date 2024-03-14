@@ -4,6 +4,10 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <cstring>
 
 using namespace std;
 
@@ -55,7 +59,6 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-// prototype
 
 void can(string sifre, string dosya, string sifreleme){
     ifstream existFile(dosya);
@@ -78,7 +81,7 @@ void can(string sifre, string dosya, string sifreleme){
 
     unsigned int key = 0;
     for (int i = 0; i < sifre.length(); i++){
-       key += sifre[i];
+        key += sifre[i];
     }
     srand(key);
 
@@ -178,22 +181,69 @@ void can(string sifre, string dosya, string sifreleme){
 }
 void mirza(const char* cSifre, const char* cDosya, const char* cSifreleme)
 {
-    printf("Mirza calisti\n"); 
-    printf("%s\n",cSifre);
-    printf("%s\n",cDosya);
-    printf("%s\n",cSifreleme);
+    char key[100];
+    printf("anahtarini gir: ");
+    gets(key);
+    char sifrelemeturu[100] ;
+    printf("sifreleme turunu gir: (on/off) ");
+    gets(sifrelemeturu);
+
+    if (strcmp(sifrelemeturu, "on") == 0)
+	{
+        char metin[100] ;
+        printf("sifrelemek istediginiz metni giriniz: ");    
+        gets(metin);
+
+		int sifre;
+		int metin_boyutu = strlen(metin);
+		int anahtar_boyutu = strlen(key);
+
+		FILE *dosya = fopen("sifreli_metin.txt", "w");
+
+		for (int i = 0; i < metin_boyutu; i++)
+		{
+			char key_1 = key[i % anahtar_boyutu];
+			sifre = metin[i] + key_1;
+			sifre %= 65535;
+			fprintf(dosya, "%c", sifre);
+			printf("%c", sifre);
+		}
+		fclose(dosya);
+		printf("\n");
+	}
+	else{
+		FILE *dosya = fopen("sifreli_metin.txt", "r");
+		char sifrelenmisMetin[100];
+		fgets(sifrelenmisMetin, 100, dosya);
+		fclose(dosya);
+
+		int acilan_sifre;
+		int sifre_boyut = strlen(sifrelenmisMetin);
+		int key_boyut = strlen(key);
+
+		dosya = fopen("sifreli_metin.txt", "w");
+
+		for (int i = 0; i < sifre_boyut; i++)
+		{
+			char key_2 = key[i % key_boyut];
+			acilan_sifre = sifrelenmisMetin[i] - key_2;
+			acilan_sifre %= 65535;
+			fprintf(dosya, "%c", acilan_sifre);
+			printf("%c", acilan_sifre);
+		}
+		fclose(dosya);
+		printf("\n");
+	}
 }
 void halil(string sifre, string dosyaad, string sifreleme)
 {
 
     string anahtar = "asfhudsf4775214sfsdaf65244s2f1a6dgds46a5fds1rh8y4rets21fa654fdw8r42f1vds6f54e8yt4sd1gf3da1fa6w8r4h2123daf1as8fw6ras2df1e45tga6s5dsaf1212g4jhbfhjaduhaoiwfkasjf98y9287hrisaf7821sf2134ucfsd";
     srand(static_cast<unsigned int>(time(0)));
- 
     if (sifreleme == "on") {
         ifstream dosya(dosyaad);
         if (!dosya) {
             cout << "Dosya bulunamadi." << endl;
-           
         }
         else{
         string metin;
@@ -236,11 +286,83 @@ void halil(string sifre, string dosyaad, string sifreleme)
         cout << "Lutfen gecerli bir arguman giriniz. (on / off)" << endl;
     }
     }
-   
-void sila(string sifre, string dosya, string sifreleme)
-{
-    cout << "Sila calisti" << endl; 
-    cout << sifre << endl;
-    cout << dosya << endl;
-    cout << sifreleme << endl;
+void sila(string sifre, string dosya, string sifreleme) {
+
+    char metin[1000];
+    char sifreliMetin[1000];
+    char desifreMetin[1000];
+    string sifrelemeTuru = sifreleme;    
+
+    char alfabe[27] = "abcdefghijklmnopqrstuvwxyz";
+
+    if(sifrelemeTuru == "on"){
+
+        cout << "Metni giriniz: ";
+        cin.getline(metin, 100);
+
+        FILE *dosya = fopen("sifreli_metin.txt", "w");
+
+        int uzunluk = strlen(metin);
+
+        for (int i = 0; i < uzunluk; i++) {
+            int sonuc = 0;
+
+            for (int j = 0; j < 26; j++) {
+                int indis = j;
+
+                if (metin[i] == alfabe[j]) {
+                    sonuc = 1;
+                    indis += 3;
+                    if (indis >= 26)
+                        indis = indis % 26;
+
+                    sifreliMetin[i] = alfabe[indis];
+                    break;
+
+                }
+            }
+            fprintf(dosya, "%c", sifreliMetin[i]);
+            fclose(dosya);
+            if (sonuc == 0)
+                sifreliMetin[i] = metin[i];
+        }
+        ofstream sifreYaz("sifreli_metin.txt");
+        sifreYaz << sifreliMetin;
+        sifreYaz.close();
+        cout << sifreliMetin;
+        }
+        else if(sifrelemeTuru == "off"){
+            cout << "Sifreli metni giriniz: ";
+            cin.getline(sifreliMetin, 100);
+
+            FILE *dosya = fopen("sifreli_metin.txt", "w");
+    
+            int uzunluk = strlen(sifreliMetin);
+
+            for (int i = 0; i < uzunluk; i++) {
+                int sonuc = 0;
+
+                for (int j = 0; j < 26; j++) {
+                    int indis = j;
+
+                    if (sifreliMetin[i] == alfabe[j]) {
+                        sonuc = 1;
+                        indis -= 3;
+                        if (indis < 0)
+                            indis = 26 + indis;
+
+                        desifreMetin[i] = alfabe[indis];
+                        break;
+                    }
+                    fclose(dosya);
+                }
+            
+            if (sonuc == 0)
+                    desifreMetin[i] = sifreliMetin[i];
+            }
+    cout << "Cozulmus metin: " << desifreMetin << endl;
+    ofstream desifreYaz("sifreli_metin.txt");
+    desifreYaz << desifreMetin;
+    desifreYaz.close();
+}
 }
